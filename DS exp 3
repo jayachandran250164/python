@@ -1,0 +1,79 @@
+class StackNode:
+    def __init__(self, url):
+        self.url = url
+        self.next = None
+
+
+class StackHistory:
+    def __init__(self):
+        self.top = None
+
+    def push(self, url):
+        new = StackNode(url)
+        new.next = self.top
+        self.top = new
+
+    def pop(self):
+        if self.top is None:
+            return None
+
+        url = self.top.url
+        self.top = self.top.next
+        return url
+
+
+# Create browser history
+history = StackHistory()
+
+history.push("google.com")
+history.push("openai.com")
+history.push("github.com")
+
+print("Last visited:", history.pop())
+print("Last visited:", history.pop())
+
+
+class PrintJobNode:
+    def __init__(self, doc):
+        self.doc = doc
+        self.next = None
+
+
+class PrintQueue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+
+    def enqueue(self, doc):
+        new = PrintJobNode(doc)
+
+        if self.rear is None:
+            self.front = self.rear = new
+        else:
+            self.rear.next = new
+            self.rear = new
+
+    def dequeue(self):
+        if self.front is None:
+            return None
+
+        doc = self.front.doc
+        self.front = self.front.next
+
+        if self.front is None:
+            self.rear = None
+
+        return doc
+
+
+# Create print queue
+queue = PrintQueue()
+
+queue.enqueue("Statement1.pdf")
+queue.enqueue("Statement2.pdf")
+queue.enqueue("Statement3.pdf")
+
+print("Printing Jobs:")
+
+while queue.front is not None:
+    print("Printed:", queue.dequeue())
